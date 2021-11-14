@@ -3,11 +3,11 @@ package com.github.sojicute.todowebflux;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
 public class TodoWebfluxApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TodoWebfluxApplication.class, args);
     }
-
 }
