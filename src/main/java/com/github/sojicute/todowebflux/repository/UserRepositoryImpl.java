@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveHashOperations;
 import org.springframework.data.redis.core.ReactiveRedisOperations;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -38,6 +36,15 @@ public class UserRepositoryImpl implements UserRepository {
     public Mono<User> findById(String id) {
         return hashOperations.get(KEY, id);
     }
+
+    @Override
+    public Mono<User> findByUsername(String username) {
+        return hashOperations.values(KEY)
+                .filter(user -> user.getUsername().equals(username))
+                .singleOrEmpty();
+    }
+
+
 
     @Override
     public <S extends User> Flux<S> saveAll(Iterable<S> entities) {
@@ -119,4 +126,5 @@ public class UserRepositoryImpl implements UserRepository {
     public Mono<Void> deleteAll() {
         return null;
     }
+
 }

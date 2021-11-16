@@ -1,5 +1,6 @@
 package com.github.sojicute.todowebflux.security;
 
+import com.github.sojicute.todowebflux.repository.UserRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -15,8 +16,7 @@ public class SecurityConfiguration  {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .authorizeExchange()
-                    .pathMatchers("/api/**")
-                    .permitAll()
+                    .pathMatchers("/api/**").authenticated()
                 .and()
                 .authorizeExchange()
                     .anyExchange()
@@ -27,14 +27,9 @@ public class SecurityConfiguration  {
                 .and().build();
     }
 
+
     @Bean
-    public MapReactiveUserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("user")
-                .roles("USER")
-                .build();
-//        User user = User.builder(userRedisRepository);
-        return new MapReactiveUserDetailsService(user);
+    public MyReactiveUserDetailsService userDetailsService() {
+        return new MyReactiveUserDetailsService();
     }
 }
